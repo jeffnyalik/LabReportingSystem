@@ -11,6 +11,7 @@ from django.http import HttpResponse
 
 
 class FacilityApiView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def get(self, request, format=None):
         facility = Facility.objects.all()
         serializer = FacilitySerializer(facility, many=True)
