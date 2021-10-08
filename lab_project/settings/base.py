@@ -22,9 +22,16 @@ INSTALLED_APPS = [
     'facilities',
     'lab_test',
     'authentication',
+    'rest_framework_simplejwt',
 ]
 
 AUTH_USER_MODEL='authentication.Customuser'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -1,7 +1,6 @@
 from django.db import models
-from facilities.models import Facility
 from authentication.models import Profile
-
+from facilities.models import Facility
 
 STATUS = (
     ('Available', 'AVAILABLE'),
@@ -26,10 +25,9 @@ TIME_SLOT = (
 )
 
 class LabTest(models.Model):
-    testId = models.AutoField(primary_key=True)
     testName = models.CharField(max_length=200, blank=True, null=True)
-    price = models.DecimalField(decimal_places=2, max_digits=2, default=0)
-    facility = models.ForeignKey(Facility, on_delete=models.CASCADE, related_name='test_facility')
+    facility = models.ForeignKey(Facility, on_delete=models.CASCADE, related_name='lab_test')
+    price = models.DecimalField(decimal_places=2, max_digits=10, default=0)
     image = models.ImageField(upload_to='images/test//%Y/%m/%d', blank=True)
     active_status = models.CharField(max_length=20, choices=STATUS, default='AVAILABLE')
     created = models.DateTimeField(auto_now_add=True)
@@ -38,7 +36,7 @@ class LabTest(models.Model):
 
     class Meta:
         verbose_name_plural = 'Lab Tests'
-        ordering = ['-testId']
+        ordering = ['-id']
 
     def __str__(self):
         return self.testName
@@ -47,7 +45,6 @@ class LabTest(models.Model):
 
 
 class OrderTest(models.Model):
-    orderId =  models.AutoField(primary_key=True)
     clientInfo = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, related_name='order_test_user')
     contactNumber = models.CharField(max_length=200, blank=True, null=True)
     testInfo = models.ForeignKey(LabTest, on_delete=models.SET_NULL, null=True, related_name='test_order')
@@ -63,8 +60,9 @@ class OrderTest(models.Model):
     validation = models.BooleanField(default=False)
     clientTested = models.BooleanField(default=False)
 
+
     class Meta:
-        ordering = ['-orderId']
+        ordering = ['-id']
 
     def __str__(self):
         return self.testInfo.testName

@@ -35,6 +35,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
    
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    is_facility_staff = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True) 
 
@@ -48,6 +49,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 
+class Staff(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='staff_user')
+    
 
 class Profile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='customuser_profile')
@@ -56,5 +60,3 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
-
-
