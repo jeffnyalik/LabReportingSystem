@@ -8,10 +8,11 @@ from lab_test.models import LabTest
 from rest_framework import permissions
 import json
 from django.http import HttpResponse
+from permissions.customPermissions import IsFacilityOwner
 
 
 class FacilityApiView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsFacilityOwner]
     def get(self, request, format=None):
         facility = Facility.objects.all()
         serializer = FacilitySerializer(facility, many=True)

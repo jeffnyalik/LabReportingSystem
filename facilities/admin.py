@@ -2,4 +2,6 @@ from django.contrib import admin
 from .models import Facility
 
 
-admin.site.register(Facility)
+class FacilityAdmin(admin.ModelAdmin):
+    list_display  = ['staff', 'name', 'email', 'contactNumber']
+admin.site.register(Facility, FacilityAdmin)

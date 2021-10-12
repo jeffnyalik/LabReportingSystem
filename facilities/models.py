@@ -1,8 +1,8 @@
 from django.db import models
-from authentication.models import Staff
+from django.conf import settings
 
 class Facility(models.Model):
-    staff = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name='facility_staff')
+    staff = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='facility_staff')
     name = models.CharField(max_length=200, blank=True)
     email = models.EmailField(max_length=200, blank=True)
     image = models.ImageField(upload_to='images//%Y/%m/%d', blank=True)
